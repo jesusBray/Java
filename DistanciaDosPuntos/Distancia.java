@@ -19,15 +19,10 @@ public class Distancia{
 	}
 
 	public void setSolucion(){
-		resp = Asignar.Puntos(asignar);
+		resp = asignar.Puntos(asignar2);
 	}
 
 	public void Imprecion(){
 		System.out.println(resp);
 	}	
-	public int getasdda(){
-
-
-		return o;
-	}
 }

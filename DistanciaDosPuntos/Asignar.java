@@ -12,8 +12,4 @@ public class Asignar{
 	public double Puntos(Asignar punto2){
 		return Math.sqrt(Math.pow((punto2.x - x ),2) + Math.pow((punto2.y - y),2));
 	}
-
-	public String comer(){
-
-	}
 }
