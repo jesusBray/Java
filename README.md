@@ -1,2 +1,0 @@
-# Java
-Practices whit java
