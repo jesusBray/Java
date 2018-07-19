@@ -13,7 +13,7 @@ public class Main {
         //new Menu().Start();
         System.out.println("digite el nombre a abuscar: ");
         
-        new ConectionSql().Campo1(entrada.next());
+        new ConectionSql().Campo1("ac","operador","jesus","paye",2);
     
     }
 }
