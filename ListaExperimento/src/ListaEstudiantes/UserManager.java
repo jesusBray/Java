@@ -9,17 +9,16 @@ public class UserManager {
     Statement declaración = null;
     PreparedStatement miSentencia = null;
     ResultSet resultado = null;
-    private String lCargo="Cargo: ",lNombre=" Nombre: ",lApellido=" Apellido: ",lSueldo=" Sueldo: ",buscarApp;
-    
-    public UserManager(ConectionSql c) {
-        this.conn = c;
-    }
+    private String buscarApp;
     
     public UserManager(String buscarApp) {
         this.buscarApp = buscarApp;
     }
+    public UserManager(ConectionSql conn){
+        this.conn = conn;
+    }
     
-    public PreparedStatement ConnectedQuery(String consulta){
+    public PreparedStatement ConnectedQueryPrepared(String consulta){
         if (conn.isConnected()) {
             try {
                 conn.Connect();
@@ -36,7 +35,7 @@ public class UserManager {
     
     public ResultSet PreparedStatementQuery(){
         try {
-            ConnectedQuery("select cargo, nombre, apellido, sueldo from dato_empleado where apellido=?");
+            ConnectedQueryPrepared("select cargo, nombre, apellido, sueldo from dato_empleado where apellido=?");
             miSentencia.setString(1, buscarApp);
             return resultado = miSentencia.executeQuery();
         } catch (Exception e) {
@@ -56,18 +55,18 @@ public class UserManager {
             System.out.println("Erroe en la coneccion..."+e.getMessage());
         }
     }
-    
+    //este metodo uetra todos los usuarios ojo al charque
     public void ShowUsers(){
         try {
-            conn.Connect();
             ConnectWithAllUsers();
-            ExecuteConnectionQuery();
+            ExecuteConnectionQuery("select * from dato_empleado");
             while(resultado.next()){
-                String cargo = resultado.getString(1);
-                String nombre = resultado.getString(2);
-                String apellido = resultado.getString(3);
-                String sueldo = resultado.getString(4);
-                System.out.println("Cargo: "+cargo+"         Nombre: "+nombre+"        Apellido: "+apellido+"       Sueldo: "+sueldo);
+                String id_usuario = resultado.getString(1);
+                String cargo = resultado.getString(2);
+                String nombre = resultado.getString(3);
+                String apellido = resultado.getString(4);
+                String sueldo = resultado.getString(5);
+                System.out.println("ID usuario: "+id_usuario+"\t Cargo: "+cargo+"\tNombre: "+nombre+"\tApellido: "+apellido+"\tSueldo: "+sueldo);
             }
         } catch (Exception e) {
             System.out.println("error en mostrar usuarios");
@@ -84,56 +83,44 @@ public class UserManager {
         return declaración;
     }
     
-    public ResultSet ExecuteConnectionQuery() {
+    public ResultSet ExecuteConnectionQuery(String query) {
         try {
             ConnectWithAllUsers();
-            return resultado = ConnectWithAllUsers().executeQuery("select cargo, nombre, apellido, sueldo from dato_empleado");
+            return resultado = ConnectWithAllUsers().executeQuery(query);
         } catch (Exception e) {
             System.out.println("Error en las consultas."+e.getMessage());
         }
         return resultado;
     }
     
-    public void Conectadoparamostrar() {
-        if(conn.isConnected()){
-            try {
-                declaración = conn.Connect().createStatement();
-            } catch (Exception e) {
-                System.out.println("error en la coneccion metodo mostrar"+e.getMessage());
-            }
+    public void AddUser(String id_usuario,String cargo,String nombre,String app,int salario) {
+        try {
+            ConnectedQueryPrepared("INSERT INTO dato_empleado"
+                + " VALUES"
+                + "(?,?,?,?,?)");
+            miSentencia.setString(1, id_usuario);
+            miSentencia.setString(2, cargo);
+            miSentencia.setString(3, nombre);
+            miSentencia.setString(4, app);
+            miSentencia.setInt(5, salario);
+            miSentencia.executeUpdate();
+            System.out.println("usuario guardado con exito");            
+        } catch (Exception e) {
+            System.out.println("error en la adicion de usuarios"+e.getMessage());
         }
-    }
-    
-    public void CreaEmpleado (String id_usuario, String cargo, String nombre, String apellido, int sueldo) {
-        // verificando si esta conectado realmente ademas se le a;ada el llenado de campo mediante consultas sql;
-    
-        //myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/USUARIO","root","root");
-        // 2 preparar la consulta
-        //ResultSet result = stmt.executeQuery("select * from usuarios");
-        //PreparedStatement miSentencia = myConnection.prepareStatement("SELECT cargo, nombre, apellido, sueldo FROM dato_empleado WHERE nombre=?");
-        
-        // 3 estables parametros de la consulta
-//        miSentencia.setString(1, id_usuario);
-//        miSentencia.setString(2, cargo);
-//        miSentencia.setString(3, nombre);
-//        miSentencia.setString(4, apellido);
-//        miSentencia.setInt(5, sueldo);
-//        ResultSet resultado = miSentenci
-//                a.executeQuery();
-//        while (resultado.next()) {
-//            System.out.println(cargo+resultado.getString(1)+nombre+resultado.getString(2)+apellido+resultado.getString(3)+sueldo+resultado.getInt(4));
-//        }
-//        resultado.close();
-    }
-    
-    public void AddUser() {
-        
-        
-        
-        
     } 
     
-    
+    public int RemoveUser(String deleteUser){
+        try {
+            ConnectedQueryPrepared("DELETE FROM dato_empleado where id_usuario=?");
+            miSentencia.setString(1, deleteUser);
+            System.out.println("Eliminado con exito");
+            return miSentencia.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("erroe ne la eliminacion del usuario"+e.getMessage());
+        }
+        return 0;
+    }
     
     
     

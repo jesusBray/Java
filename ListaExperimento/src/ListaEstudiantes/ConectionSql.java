@@ -20,6 +20,7 @@ public class ConectionSql {
         try{
             myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/USUARIO",this.user,this.password);
             if (myConnection.isClosed()) {
+                System.out.println("La base de datos esta apagada");
                 return false;
             }
         }catch (Exception e) {

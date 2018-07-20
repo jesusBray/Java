@@ -5,36 +5,28 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner entrada = new Scanner(System.in);
-    UserManager userManager = new UserManager(new ConectionSql("root","root"));
-    FilterUserData um = new FilterUserData();
+    UserManager userManager = new  UserManager(new ConectionSql("root", "root"));
+    FilterUserData filtre = new FilterUserData();
+    UserVerification verifiedInformation;
+    ConectionSql conected = new ConectionSql("root","root");
     
     private String Input(String a){
         System.out.println(a);
         return entrada.next();
     }
-    
-    private void DataEntry() {      
-        um.CreateUser(Input("Digite el nombre"), Input("Digite el apellido"), Input("Digite la edad"), Input("Digite la direccion"));    
-    }
-    
-    private void Print() {
-        for (Usuario usuario : um.GetLista()) {
-            System.out.println(": "+usuario.VerInfo());
-        }
-    }
-   
+
     public void Start(){
         boolean exit = true;
         String option;
+        
         do{
             System.out.println(" 1:Adicionar usuario \n 2:Eliminar usuario \n 3:Mostrar \n 4:Buscar usuario \n 5:Salir");
             option = entrada.next();
-            if (um.ValidationDataNumber(option)) {            
+            if (filtre.ValidationDataNumber(option)) {            
                 switch(Integer.parseInt(option)) {
-                    case 1: DataEntry();
-                    
+                    case 1: userManager.AddUser(Input("Digite el id para el usuario"),Input("Digite el cargo para el usuario"),Input("Digite el nombre para el usuario"),Input("Digite el apellido para el usuario"),Integer.parseInt(Input("Digite el salario")));
                         break;
-                    case 2: um.DeleteUsers(Integer.parseInt(Input("Ingrese el numero del usuario a eliminar")));
+                    case 2: verifiedInformation.UserDeleted(Input("Digite el id a eliminar"));
                         break;
                     case 3: userManager.ShowUsers();
                         break;
@@ -47,5 +39,6 @@ public class Menu {
                 }
             }
         }while(exit);
+
     }
 }

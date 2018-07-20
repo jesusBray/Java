@@ -1,17 +1,12 @@
 
 package ListaEstudiantes;
 
-import java.util.ArrayList;
-
 public class FilterUserData {
-    ArrayList<Usuario> lista = new ArrayList<>();
-    
-    public ArrayList<Usuario> GetLista(){
-        return lista;
-    }
+   
+    public FilterUserData(){}
     
 // principios de SOLID 
-    private boolean ValidationData(String value) {
+    public boolean ValidationData(String value) {
         for (int i = 0; i < value.length(); i++) {
             if (!Character.isLetter(value.charAt(i))) {
                 System.out.println("Error en "+value);
@@ -68,31 +63,6 @@ public class FilterUserData {
         return false;
     }
     
-    public void FillingFields(Usuario user) {
-        lista.add(user);
-    }
-    
-    public void CreateUser(String a, String b, String c, String d) {
-        if (ValidateParameters(a, b, c, d)) {
-           //crear usuario
-           FillingFields(new Usuario(a, b, c, d));
-        }else{
-           System.out.println("error in filling data!");
-           //erroe al crear usuario
-        }
-//           FillingFields(new Usuario(a, b, c, d));
-    }
-    
-    public void DeleteUsers(int userDelet) {
-        lista.remove((userDelet-1));
-    }
-   
-    public void ShowList() {
-        int i = 0;
-        for (Usuario usuario : lista) {
-            i++;
-            System.out.println("N#"+i+": "+usuario.VerInfo());
-        }
-    }
+
 }
 
