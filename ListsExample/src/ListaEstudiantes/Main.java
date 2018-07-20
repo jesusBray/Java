@@ -23,6 +23,7 @@ public class Main {
                 String direcc = result.getString("direccion");
                 System.out.println("nombre: " + nombre+"\t apellido: "+apellido+" \t edad: "+edad+"\t direcction: "+direcc);
             }
+            
         }catch(Exception e){
             System.out.println("error en la base de datos: " + e.getMessage());
             e.getStackTrace();
