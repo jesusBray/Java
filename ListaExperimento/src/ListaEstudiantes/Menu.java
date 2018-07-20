@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner entrada = new Scanner(System.in);
-    UserManager um = new UserManager();
+    UserManager userManager = new UserManager(new ConectionSql("root","root"));
+    FilterUserData um = new FilterUserData();
     
     private String Input(String a){
         System.out.println(a);
@@ -26,7 +27,7 @@ public class Menu {
         boolean exit = true;
         String option;
         do{
-            System.out.println(" 1:Adicionar usuario \n 2:Eliminar usuario \n 3:Mostrar \n 4:Salir");
+            System.out.println(" 1:Adicionar usuario \n 2:Eliminar usuario \n 3:Mostrar \n 4:Buscar usuario \n 5:Salir");
             option = entrada.next();
             if (um.ValidationDataNumber(option)) {            
                 switch(Integer.parseInt(option)) {
@@ -35,9 +36,11 @@ public class Menu {
                         break;
                     case 2: um.DeleteUsers(Integer.parseInt(Input("Ingrese el numero del usuario a eliminar")));
                         break;
-                    case 3: um.ShowList();
+                    case 3: userManager.ShowUsers();
                         break;
-                    case 4: exit = false;
+                    case 4: userManager.ShowSearchUser(Input("Digite el apellido a buscar"));
+                        break;
+                    case 5: exit = false;
                         System.out.println("www.Yesvill.com");
                         break;
                     default : System.out.println("Digito no valido intente denuevo");
