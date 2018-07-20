@@ -1,108 +1,127 @@
-
 package ListaEstudiantes;
 
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class UserManager {
-    ArrayList<Usuario> lista = new ArrayList<>();
+    ConexionSQL conn;
+    Statement declaración = null;
+    PreparedStatement miSentencia = null;
+    ResultSet resultado = null;
+    private String buscarApp;
     
-    public ArrayList<Usuario> GetLista(){
-        return lista;
+    public UserManager(String buscarApp) {
+        this.buscarApp = buscarApp;
+    }
+    public UserManager(ConexionSQL conn){
+        this.conn = conn;
     }
     
-// principios de SOLID 
-    private boolean ValidationData(String value) {
-        for (int i = 0; i < value.length(); i++) {
-            if (!Character.isLetter(value.charAt(i))) {
-                System.out.println("Error en "+value);
-                return false;
+    public PreparedStatement ConnectedQueryPrepared(String consulta){
+        if (conn.isConnected()) {
+            try {
+                conn.Connect();
+                return  miSentencia = conn.Connect().prepareStatement(consulta);
+            } catch (Exception e) {
+                System.out.println("Error en la consulta!"+e.getMessage());
             }
         }
-        return true;
+        else{
+            System.out.println("no se pudo crear coneccion, error! ");
+        }
+        return miSentencia; 
     }
     
-    public boolean ValidationDataNumber(String data) {
-        for (int i = 0; i < data.length(); i++) {
-            if (!Character.isDigit(data.charAt(i))) {
-                System.out.println("Error en "+data);
-                return false;
+    public ResultSet PreparedStatementQuery(){
+        try {
+            ConnectedQueryPrepared("select cargo, nombre, apellido, sueldo from dato_empleado where apellido=?");
+            miSentencia.setString(1, buscarApp);
+            return resultado = miSentencia.executeQuery();
+        } catch (Exception e) {
+            System.out.println("Error en respuesta Busqueda! "+e.getMessage());
+        }
+        return resultado;
+    }
+    
+    public void ShowSearchUser(String dato) {
+        this.buscarApp = dato;
+        try {
+            PreparedStatementQuery();
+            while (resultado.next()) {            
+                System.out.println("Cargo: "+resultado.getString(1)+" Nombre: "+resultado.getString(2)+" Apellido: "+resultado.getString(3)+" Salario"+resultado.getInt(4));
             }
+        } catch (Exception e) {
+            System.out.println("Erroe en la coneccion..."+e.getMessage());
         }
-        return true;
     }
-
-    private boolean ValidationDataAge(String age) {
-        int numberAge = Integer.parseInt(age);
-        if (numberAge > 0 && numberAge < 100) {
-            for (int i = 0; i < age.length(); i++) {
-                if (!Character.isDigit(age.charAt(i))) {
-                    System.out.println("Error en "+age);
-                    return false;
-                }
+    //este metodo uetra todos los usuarios ojo al charque
+    public void ShowUsers(){
+        try {
+            ConnectWithAllUsers();
+            ExecuteConnectionQuery("select * from dato_empleado");
+            while(resultado.next()){
+                String id_usuario = resultado.getString(1);
+                String cargo = resultado.getString(2);
+                String nombre = resultado.getString(3);
+                String apellido = resultado.getString(4);
+                String sueldo = resultado.getString(5);
+                System.out.println("ID usuario: "+id_usuario+"\t Cargo: "+cargo+"\tNombre: "+nombre+"\tApellido: "+apellido+"\tSueldo: "+sueldo);
             }
-            return true;
-        }
-        return false;
-    }
-
-    //validacion en datos;
-    public boolean ValidateName(String name) {
-        return ValidationData(name);
-    }
-
-    public boolean ValidateLastName(String lastName) {
-        return ValidationData(lastName);
-    }
-    
-    public boolean ValidateAge(String age) {
-        return ValidationDataNumber(age);
-    }
-    
-    public boolean ValidateDirecction(String direcction) {
-        return ValidationDataNumber(direcction);
-    }
-    
-    private boolean ValidateParameters(String name, String lastName, String age, String direc) {
-        if (ValidateName(name) && ValidateLastName(lastName) && ValidateAge(age) && ValidateDirecction(direc))
-            return true;
-        return false;
-    }
-    
-    public void FillingFields(Usuario user) {
-        lista.add(user);
-    }
-    
-    public void CreateUser(String a, String b, String c, String d) {
-        if (ValidateParameters(a, b, c, d)) {
-           //crear usuario
-           FillingFields(new Usuario(a, b, c, d));
-        }else{
-           System.out.println("error in filling data!");
-           //erroe al crear usuario
-        }
-//           FillingFields(new Usuario(a, b, c, d));
-
-    }
-    
-    public void DeleteUsers(int userDelet) {
-        lista.remove((userDelet-1));
-    }
-   
-
-    public void ShowList() {
-        int i = 0;
-        for (Usuario usuario : lista) {
-            i++;
-            System.out.println("N#"+i+": "+usuario.VerInfo());
+        } catch (Exception e) {
+            System.out.println("error en mostrar usuarios");
         }
     }
     
-//    
-//    public void GenerateAlphabet() {
-//        char[] a;
-//        for(char letra = 'a' ; letra <= 'z' ; letra++){
-//            System.out.print(letra+" ");
-//        }
-//    }
+    public Statement ConnectWithAllUsers() {
+        try {
+            conn.Connect();
+            return declaración = conn.Connect().createStatement();
+        } catch (Exception e) {
+            System.out.println("error en el metodo ConnectWithAllUsers()");
+        }
+        return declaración;
+    }
+    
+    public ResultSet ExecuteConnectionQuery(String query) {
+        try {
+            ConnectWithAllUsers();
+            return resultado = ConnectWithAllUsers().executeQuery(query);
+        } catch (Exception e) {
+            System.out.println("Error en las consultas."+e.getMessage());
+        }
+        return resultado;
+    }
+    
+    public void AddUser(String id_usuario,String cargo,String nombre,String app,int salario) {
+        try {
+            ConnectedQueryPrepared("INSERT INTO dato_empleado"
+                + " VALUES"
+                + "(?,?,?,?,?)");
+            miSentencia.setString(1, id_usuario);
+            miSentencia.setString(2, cargo);
+            miSentencia.setString(3, nombre);
+            miSentencia.setString(4, app);
+            miSentencia.setInt(5, salario);
+            miSentencia.executeUpdate();
+            System.out.println("usuario guardado con exito");            
+        } catch (Exception e) {
+            System.out.println("error en la adicion de usuarios"+e.getMessage());
+        }
+    } 
+    
+    public int RemoveUser(String deleteUser){
+        try {
+            ConnectedQueryPrepared("DELETE FROM dato_empleado where id_usuario=?");
+            miSentencia.setString(1, deleteUser);
+            System.out.println("Eliminado con exito");
+            return miSentencia.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("erroe ne la eliminacion del usuario"+e.getMessage());
+        }
+        return 0;
+    }
+    
+    
+    
 }
-
