@@ -45,14 +45,18 @@ public class UserManager {
     }
     
     public void ShowSearchUser(String dato) {
+        int i=0;
         this.buscarApp = dato;
         try {
             PreparedStatementQuery();
-            while (resultado.next()) {            
-                System.out.println("Cargo: "+resultado.getString(1)+" Nombre: "+resultado.getString(2)+" Apellido: "+resultado.getString(3)+" Salario"+resultado.getInt(4));
+            while (resultado.next()) {
+                i++;
+                System.out.println("Cargo: "+resultado.getString(1)+" Nombre: "+resultado.getString(2)+" Apellido: "+resultado.getString(3)+" Salario: "+resultado.getInt(4));
+                System.out.println("");
             }
+            System.out.println("Total hallados: "+i);
         } catch (Exception e) {
-            System.out.println("Erroe en la coneccion..."+e.getMessage());
+            System.out.println("Error en la coneccion..."+e.getMessage());
         }
     }
     //este metodo uetra todos los usuarios ojo al charque
@@ -67,9 +71,10 @@ public class UserManager {
                 String apellido = resultado.getString(4);
                 String sueldo = resultado.getString(5);
                 System.out.println("ID usuario: "+id_usuario+"\t Cargo: "+cargo+"\tNombre: "+nombre+"\tApellido: "+apellido+"\tSueldo: "+sueldo);
+                System.out.println("");
             }
         } catch (Exception e) {
-            System.out.println("error en mostrar usuarios");
+            System.out.println("error en la coneccion usuarios");
         }
     }
     
@@ -117,7 +122,7 @@ public class UserManager {
             System.out.println("Eliminado con exito");
             return miSentencia.executeUpdate();
         } catch (Exception e) {
-            System.out.println("erroe ne la eliminacion del usuario"+e.getMessage());
+            System.out.println("error en la eliminacion del usuario"+e.getMessage());
         }
         return 0;
     }

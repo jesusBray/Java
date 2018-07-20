@@ -7,18 +7,22 @@ public class UserVerification {
     
     public UserVerification (){}
     
-    public boolean UserDBChecker(String user,String pasword){
+    public boolean ValidateUsers(String user,String pasword){
+        if (true) {
+            
+        }
+        return false;
+    }
+    public void UserDBChecker(String user,String pasword){
         String alertaLogin="error datos invalidos";
         if (filtrado.ValidationData(user) && filtrado.ValidationData(pasword)) {
-            if (new ConectionSql(user,pasword).isConnected()) {
+                
                 System.out.println("Bienvenido a su base de datos!");
-                return true;
-            }
+           
         }
-//        else{
-//            return false;
-//        }
-        return false;
+        else{
+            
+        }
     }
     
     public void AddUsuario(String id_usuario,String cargo,String nombre,String app, int sueldo){
@@ -31,12 +35,8 @@ public class UserVerification {
     
     public void UserDeleted(String removeUser) {
         if (filtrado.ValidationDataNumber(removeUser)) {
-            if (user.RemoveUser(removeUser)>0) {
-                System.out.println("Se a eliminado al usuario");
-            }
-            else{
-                System.out.println("dato no valido!");
-            }
+            user.RemoveUser(removeUser);
+            System.out.println("Se a eliminado al usuario");
         }
         else{
             System.out.println("Error caracter no valido");
