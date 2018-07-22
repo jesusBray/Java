@@ -119,5 +119,21 @@ public class UserManager {
             System.out.println("error en la eliminacion del usuario"+e.getMessage());
         }
         return 0;
-    }   
+    }
+    public void EditUser(String id_usuarioEdit,String id_usuario,String cargo,String nombre,String app,int salario){
+        ConnectedQueryPrepared("UPDATE dato_empleado SET id_usuario= ?, cargo= ?, nombre= ?, apellido= ?, sueldo= ? WHERE id_usuario= ?");
+        try {
+            miSentencia.setString(1, id_usuario);
+            miSentencia.setString(2, cargo);
+            miSentencia.setString(3, nombre);
+            miSentencia.setString(4, app);
+            miSentencia.setInt(5, salario);
+            miSentencia.setString(6, id_usuarioEdit);
+            miSentencia.executeUpdate();
+            System.out.println("usuario guardado con exito");
+        } catch (Exception e) {
+            System.out.println("error en la adicion de usuarios"+e.getMessage());
+        }
+        
+    }
 }
