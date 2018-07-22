@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 
 public class ConectionSql {
     private String user,password;
-    private Connection myConnection;
+    private Connection myConnection = null;
     
     public ConectionSql(String user,String password) {
         this.user=user;
@@ -16,10 +16,8 @@ public class ConectionSql {
     }
     
     public boolean isConnected() {
-        
         try{
-            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/USUARIO",this.user,this.password);
-            if (myConnection.isClosed()) {
+            if (Connect().isClosed()) {
                 System.out.println("La base de datos esta apagada");
                 return false;
             }
@@ -33,9 +31,25 @@ public class ConectionSql {
     public Connection Connect() {
         try {
             return myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/USUARIO",this.user,this.password);
-        } catch (Exception e) {
+        }catch (Exception e) {
+            System.out.println("Error no coneccion no establecida");
         }
-        return this.myConnection;
+        return myConnection;
     }
     
+    public void setUser(String user) {
+        this.user = user;
+    }
+    
+    public String getUser() {
+        return user;
+    }
+    
+    public void setPasword(String password) {
+        this.password = password;
+    }
+    
+    public String getPasword() {
+        return password;
+    }
 }

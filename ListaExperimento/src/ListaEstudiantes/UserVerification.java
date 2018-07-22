@@ -13,15 +13,15 @@ public class UserVerification {
         }
         return false;
     }
+    
     public void UserDBChecker(String user,String pasword){
         String alertaLogin="error datos invalidos";
         if (filtrado.ValidationData(user) && filtrado.ValidationData(pasword)) {
-                
-                System.out.println("Bienvenido a su base de datos!");
-           
+            alertaLogin = "datos validos!";
+            System.out.println(alertaLogin+"\nBienvenido a su base de datos!");
         }
         else{
-            
+            System.out.println(alertaLogin);
         }
     }
     
@@ -47,6 +47,5 @@ public class UserVerification {
         if (filtrado.ValidationData(userSearch)) {
             user.ShowSearchUser(userSearch);
         }
-    }
-    
+    }   
 }

@@ -9,8 +9,8 @@ public class Menu {
     UserManager userManager = new  UserManager(new ConectionSql("root", "root"));
     FilterUserData filtre = new FilterUserData();
     UserVerification verifiedInformation;
-    ConectionSql conected = new ConectionSql("root","root");
-    
+    //ConectionSql conected = new ConectionSql("root","root");
+    IGListas iu;
     private String Input(String a){
         System.out.println(a);
         return entrada.next();
@@ -45,6 +45,5 @@ public class Menu {
                 }
             }
         }while(exit);
-
     }
 }

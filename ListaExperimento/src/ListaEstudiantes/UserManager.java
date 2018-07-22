@@ -5,23 +5,20 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class UserManager {
-    ConectionSql conn;
+    ConectionSql conn = null;
     Statement declaración = null;
     PreparedStatement miSentencia = null;
     ResultSet resultado = null;
     private String buscarApp;
-    
-    public UserManager(String buscarApp) {
-        this.buscarApp = buscarApp;
-    }
+
     public UserManager(ConectionSql conn){
         this.conn = conn;
+        
     }
     
     public PreparedStatement ConnectedQueryPrepared(String consulta){
         if (conn.isConnected()) {
             try {
-                conn.Connect();
                 return  miSentencia = conn.Connect().prepareStatement(consulta);
             } catch (Exception e) {
                 System.out.println("Error en la consulta!");
@@ -33,7 +30,7 @@ public class UserManager {
         return miSentencia; 
     }
     
-    public ResultSet PreparedStatementQuery(){
+    public ResultSet PreparedStatementQuery(String buscarApp){
         try {
             ConnectedQueryPrepared("select cargo, nombre, apellido, sueldo from dato_empleado where apellido=?");
             miSentencia.setString(1, buscarApp);
@@ -46,13 +43,11 @@ public class UserManager {
     
     public void ShowSearchUser(String dato) {
         int i=0;
-        this.buscarApp = dato;
         try {
-            PreparedStatementQuery();
+            PreparedStatementQuery(dato);
             while (resultado.next()) {
                 i++;
                 System.out.println("Cargo: "+resultado.getString(1)+" Nombre: "+resultado.getString(2)+" Apellido: "+resultado.getString(3)+" Salario: "+resultado.getInt(4));
-                System.out.println("");
             }
             System.out.println("Total hallados: "+i);
         } catch (Exception e) {
@@ -78,9 +73,9 @@ public class UserManager {
         }
     }
     
+    // este metodo solo es usable para querys preparadas
     public Statement ConnectWithAllUsers() {
         try {
-            conn.Connect();
             return declaración = conn.Connect().createStatement();
         } catch (Exception e) {
             System.out.println("error en el metodo ConnectWithAllUsers()");
@@ -90,7 +85,6 @@ public class UserManager {
     
     public ResultSet ExecuteConnectionQuery(String query) {
         try {
-            ConnectWithAllUsers();
             return resultado = ConnectWithAllUsers().executeQuery(query);
         } catch (Exception e) {
             System.out.println("Error en las consultas."+e.getMessage());
@@ -125,8 +119,5 @@ public class UserManager {
             System.out.println("error en la eliminacion del usuario"+e.getMessage());
         }
         return 0;
-    }
-    
-    
-    
+    }   
 }
