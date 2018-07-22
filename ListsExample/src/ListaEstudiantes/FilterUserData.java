@@ -5,11 +5,14 @@ public class FilterUserData {
    
     public FilterUserData(){}
     
+    private void ErrorMessage(String dato){
+        System.out.println("Error"+dato);
+    }
 // principios de SOLID 
     public boolean ValidationData(String value) {
         for (int i = 0; i < value.length(); i++) {
             if (!Character.isLetter(value.charAt(i))) {
-                System.out.println("Error en "+value);
+                ErrorMessage(value);
                 return false;
             }
         }
@@ -19,7 +22,7 @@ public class FilterUserData {
     public boolean ValidationDataNumber(String data) {
         for (int i = 0; i < data.length(); i++) {
             if (!Character.isDigit(data.charAt(i))) {
-                System.out.println("Error en "+data);
+                ErrorMessage(data);
                 return false;
             }
         }
@@ -31,7 +34,7 @@ public class FilterUserData {
         if (numberAge > 0 && numberAge < 100) {
             for (int i = 0; i < age.length(); i++) {
                 if (!Character.isDigit(age.charAt(i))) {
-                    System.out.println("Error en "+age);
+                    ErrorMessage(age);
                     return false;
                 }
             }
@@ -40,29 +43,31 @@ public class FilterUserData {
         return false;
     }
 
-    //validacion en datos;
-    public boolean ValidateName(String name) {
-        return ValidationData(name);
-    }
-
-    public boolean ValidateLastName(String lastName) {
-        return ValidationData(lastName);
+    private void ValidateParameters3(String id_usuario, String lastName){
+        if (ValidationData(id_usuario) && ValidationData(lastName))
+            ErrorMessage("");
+        else
+            ErrorMessage("Error");
     }
     
-    public boolean ValidateAge(String age) {
-        return ValidationDataNumber(age);
+    private void ValidateParameters4(String id_usuario, String cargo, int salario) {
+        if (ValidationData(id_usuario) && ValidationData(cargo) && ValidationDataNumber(Integer.toString(salario)))
+            ErrorMessage("");
+        else
+        ErrorMessage("Error");
     }
     
-    public boolean ValidateDirecction(String direcction) {
-        return ValidationDataNumber(direcction);
+    private void ValidateParameters5(String id_usuario, String cargo, String nombre, String apellido,int salario) {
+        if (ValidationData(id_usuario) && ValidationData(cargo)&& ValidationData(nombre) &&ValidationData(apellido) && ValidationDataNumber(Integer.toString(salario)))
+        ErrorMessage("");
+        else
+        ErrorMessage("Error");
     }
     
-    private boolean ValidateParameters(String name, String lastName, String age, String direc) {
-        if (ValidateName(name) && ValidateLastName(lastName) && ValidateAge(age) && ValidateDirecction(direc))
-            return true;
-        return false;
+    private void ValidateParameters6(String id_usuario, String cargo, String nombre, String apellido,int salario, String sexo) {
+        if (ValidationData(id_usuario) && ValidationData(cargo)&& ValidationData(nombre) &&ValidationData(apellido) &&ValidationDataNumber(sexo) && ValidationDataNumber(Integer.toString(salario)))
+            ErrorMessage("");
+        else
+            ErrorMessage("Error");
     }
-    
-
 }
-

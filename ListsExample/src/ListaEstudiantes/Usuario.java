@@ -2,20 +2,37 @@
 package ListaEstudiantes;
 
 public class Usuario {
-    private String name, lastName;
-    private String age, direction;
-
+    private String id_user, position, name, lastName;
+    int salary;
+        
     public Usuario() { }
     
-    public Usuario(String n,String l,String a,String d) {
-        name = n;
-        lastName = l;
-        age = a;
-        direction = d;
+    public Usuario(String id_user,String position,String name,String lastName, int salary) {
+        this.id_user = id_user;
+        this.position = position;
+        this.name = name;
+        this.lastName = lastName;
+        this.salary = salary;
     }
    
     public String VerInfo() {
-        return "Nombre: "+name+" Apellido: "+lastName+" Edad: "+age+" Direccion: "+direction;
+        return "Id usuario: "+id_user+"Cargo: "+position+"Nombre: "+name+"Apellido: "+lastName+"Salario: "+salary;
+    }
+    
+    public String getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getName() {
@@ -34,21 +51,11 @@ public class Usuario {
         this.lastName = lastName;
     }
 
-    public String getAge() {
-        return age;
+    public int getSalary() {
+        return salary;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-    
-   
 }

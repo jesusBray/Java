@@ -10,10 +10,12 @@ public class UserManager {
     PreparedStatement miSentencia = null;
     ResultSet resultado = null;
     private String buscarApp;
+    Usuario usuario;
     
     public UserManager(String buscarApp) {
         this.buscarApp = buscarApp;
     }
+    
     public UserManager(ConexionSQL conn){
         this.conn = conn;
     }
@@ -52,7 +54,7 @@ public class UserManager {
                 System.out.println("Cargo: "+resultado.getString(1)+" Nombre: "+resultado.getString(2)+" Apellido: "+resultado.getString(3)+" Salario"+resultado.getInt(4));
             }
         } catch (Exception e) {
-            System.out.println("Erroe en la coneccion..."+e.getMessage());
+            System.out.println("Error en la coneccion..."+e.getMessage());
         }
     }
     //este metodo uetra todos los usuarios ojo al charque
