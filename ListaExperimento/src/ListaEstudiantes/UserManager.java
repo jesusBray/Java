@@ -10,23 +10,18 @@ public class UserManager {
     PreparedStatement miSentencia = null;
     ResultSet resultado = null;
     private String buscarApp;
-
+    
     public UserManager(ConectionSql conn){
         this.conn = conn;
-        
     }
     
     public PreparedStatement ConnectedQueryPrepared(String consulta){
-        if (conn.isConnected()) {
+        conn.isConnected();
             try {
                 return  miSentencia = conn.Connect().prepareStatement(consulta);
             } catch (Exception e) {
-                System.out.println("Error en la consulta!");
+                System.out.println("Error en la consulta!"+e.getMessage());
             }
-        }
-        else{
-            System.out.println("no se pudo crear coneccion, error! ");
-        }
         return miSentencia; 
     }
     
@@ -54,6 +49,7 @@ public class UserManager {
             System.out.println("Error en la coneccion..."+e.getMessage());
         }
     }
+    
     //este metodo uetra todos los usuarios ojo al charque
     public void ShowUsers(){
         try {
@@ -134,6 +130,5 @@ public class UserManager {
         } catch (Exception e) {
             System.out.println("error en la adicion de usuarios"+e.getMessage());
         }
-        
     }
 }

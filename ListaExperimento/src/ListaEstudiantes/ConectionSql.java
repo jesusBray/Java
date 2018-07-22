@@ -36,20 +36,4 @@ public class ConectionSql {
         }
         return myConnection;
     }
-    
-    public void setUser(String user) {
-        this.user = user;
-    }
-    
-    public String getUser() {
-        return user;
-    }
-    
-    public void setPasword(String password) {
-        this.password = password;
-    }
-    
-    public String getPasword() {
-        return password;
-    }
 }
