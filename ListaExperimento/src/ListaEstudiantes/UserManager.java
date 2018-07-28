@@ -18,6 +18,7 @@ public class UserManager {
     public PreparedStatement ConnectedQueryPrepared(String consulta){
         conn.isConnected();
             try {
+                System.out.println("coneccion establecida");
                 return  miSentencia = conn.Connect().prepareStatement(consulta);
             } catch (Exception e) {
                 System.out.println("Error en la consulta!"+e.getMessage());
@@ -27,6 +28,7 @@ public class UserManager {
     
     public ResultSet PreparedStatementQuery(String buscarApp){
         try {
+            System.out.println("verifcando datos ");
             ConnectedQueryPrepared("select cargo, nombre, apellido, sueldo from dato_empleado where apellido=?");
             miSentencia.setString(1, buscarApp);
             return resultado = miSentencia.executeQuery();
@@ -39,6 +41,7 @@ public class UserManager {
     public void ShowSearchUser(String dato) {
         int i=0;
         try {
+            System.out.println("datos enlasados ");
             PreparedStatementQuery(dato);
             while (resultado.next()) {
                 i++;
@@ -55,6 +58,7 @@ public class UserManager {
         try {
             ConnectWithAllUsers();
             ExecuteConnectionQuery("select * from dato_empleado");
+            System.out.println("query completado actualisando datos");
             while(resultado.next()){
                 String id_usuario = resultado.getString(1);
                 String cargo = resultado.getString(2);
@@ -72,6 +76,7 @@ public class UserManager {
     // este metodo solo es usable para querys preparadas
     public Statement ConnectWithAllUsers() {
         try {
+            System.out.println("coversion notable ");
             return declaración = conn.Connect().createStatement();
         } catch (Exception e) {
             System.out.println("error en el metodo ConnectWithAllUsers()");
