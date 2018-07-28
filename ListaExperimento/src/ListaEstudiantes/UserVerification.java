@@ -15,6 +15,7 @@ public class UserVerification {
     }
     
     public void UserDBChecker(String user,String pasword){
+        System.out.println("verifcando filtros");
         String alertaLogin="error datos invalidos";
         if (filtrado.ValidationData(user) && filtrado.ValidationData(pasword)) {
             alertaLogin = "datos validos!";
@@ -26,6 +27,7 @@ public class UserVerification {
     }
     
     public void AddUsuario(String id_usuario,String cargo,String nombre,String app, int sueldo){
+        System.out.println("verifcando datos al crear usuario");
         new ConectionSql("root","root");
         if (filtrado.ValidationData(id_usuario)&&filtrado.ValidationData(cargo)&&filtrado.ValidationData(nombre)&&filtrado.ValidationData(app)) {
             user.AddUser(id_usuario, cargo, nombre, app, sueldo);
@@ -34,6 +36,7 @@ public class UserVerification {
     }
     
     public void UserDeleted(String removeUser) {
+        System.out.println(" filtrando datos");
         if (filtrado.ValidationDataNumber(removeUser)) {
             user.RemoveUser(removeUser);
             System.out.println("Se a eliminado al usuario");
@@ -44,6 +47,7 @@ public class UserVerification {
     }
     
     public void ShowResultSearch(String userSearch) {
+        System.out.println("filtrando datos ");
         if (filtrado.ValidationData(userSearch)) {
             user.ShowSearchUser(userSearch);
         }
