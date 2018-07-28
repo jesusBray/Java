@@ -17,6 +17,7 @@ public class ConectionSql {
     
     public boolean isConnected() {
         try{
+            System.out.println("verifcando datos ");
             if (Connect().isClosed()) {
                 System.out.println("La base de datos esta apagada");
                 return false;
@@ -30,6 +31,7 @@ public class ConectionSql {
     
     public Connection Connect() {
         try {
+            System.out.println("coneccion establesida ");
             return myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/USUARIO",this.user,this.password);
         }catch (Exception e) {
             System.out.println("Error no coneccion no establecida");
