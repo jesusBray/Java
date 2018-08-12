@@ -1,34 +1,23 @@
 package SumaMatrices;
 
 import java.util.Scanner;
-import java.util.Random;
 
 public class Suma {
     
     Scanner entrada = new Scanner(System.in);
-    Random aleatorio = new Random();
+
     int [][] matriz1, matriz2, totalSuma;
 
     public int TextForTecl(String text) {
         System.out.println(text);
         return entrada.nextInt();
     }
-
-    public int[][] Matriz1() {
-        matriz1 = new int[TextForTecl("Digite columna")][TextForTecl("Digite filas")];
-        for(int i = 0;i < matriz1.length; i++) {
-            for(int j = 0; j < matriz1[0].length; j++){ 
-               matriz1[i][j] = aleatorio.nextInt(9);
-            }
-        }
-        return matriz1;
-    }
-
-    public int[][] Matriz2() {
+   
+    public int[][] Matriz() {
         matriz2 = new int[TextForTecl("Digite columna")][TextForTecl("Digite filas")];
         for(int i = 0;i < matriz2.length; i++) {
             for(int j = 0; j < matriz2[0].length; j++){ 
-               matriz2[i][j] = aleatorio.nextInt(9);
+               matriz2[i][j] = TextForTecl("Digite un digito");
             }
         }
         return matriz2;
