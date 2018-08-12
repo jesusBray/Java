@@ -9,8 +9,9 @@ public class Menu {
     UserManager userManager = new  UserManager(new ConectionSql("root", "root"));
     FilterUserData filtre = new FilterUserData();
     UserVerification verifiedInformation;
-    //ConectionSql conected = new ConectionSql("root","root");
     IGListas iu;
+    
+    //este metodo es para imprimir por scanner;
     private String Input(String a){
         System.out.println(a);
         return entrada.next();
