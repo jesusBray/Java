@@ -17,6 +17,7 @@ public class Menu {
         return entrada.next();
     }
     
+    //este metodo imprime los datos mediante una ventana emergente 
     private String MessageOP(String mensaje){
         return JOptionPane.showInputDialog(mensaje);
     }
