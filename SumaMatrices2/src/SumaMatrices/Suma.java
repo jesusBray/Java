@@ -25,7 +25,7 @@ public class Suma {
 
     public void verSuma(int[][] m1, int[][] m2) {
         totalSuma = new int[m1[0].length][m2.length];
-        for(int i = 0;i < totalSuma.length; i++) {
+        for(int i = 0; i < totalSuma.length; i++) {
             for(int j = 0 ;j < totalSuma[0].length; j++){
                 totalSuma[i][j] = m1[i][j]+m2[i][j];
             }
