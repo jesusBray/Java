@@ -14,19 +14,24 @@ public class Palindrome {
        for (int i = this.datoEntrante.length(); i > 0; i--) {
           resultado = resultado +this.datoEntrante.charAt((i-1));
        }
-       if (this.datoEntrante.equals(resultado)) 
+       if (this.datoEntrante.equals(resultado))
            return true;
+       
+       long endTime = System.nanoTime();
+       System.out.println(endTime);
        return false;
    }
 
     public final static boolean VerifieldIfPalindrome(String datoEntrante){
         String resultado ="";
         for (int i = datoEntrante.length() ; i > 0; i--) {
-             resultado = resultado + (datoEntrante.charAt((i-1)));
+            resultado = resultado + (datoEntrante.charAt((i-1)));
         }
         if (datoEntrante.equals(resultado)) {
             return true;
         }
+        long endTime = System.nanoTime();
+        System.out.println(endTime);
         return false;
     }
 }
