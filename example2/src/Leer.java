@@ -17,8 +17,8 @@ public class Leer {
             System.out.println("no se pudo establecer coneccion"+e.getMessage());
         }
     }
-        public static void main(String arg[]) {
-            Leer.FicheroTxt("/home/jesus/Desktop/texto.txt");
-        
+    
+    public static void main(String arg[]) {
+        Leer.FicheroTxt("/home/jesus/Desktop/texto.txt");
     }
 }
