@@ -18,6 +18,9 @@ public class ShowPalindrome {
         else{
             System.out.println("No es un palindromo");
         }
+        long endTime = System.nanoTime();
+        System.out.println(endTime);
+  
     }
     
     public void ShowPalindrome(String datoEntrante){
@@ -27,6 +30,8 @@ public class ShowPalindrome {
         else{
             System.out.println("No es un palindromo");
         }
+        long endTime = System.nanoTime();
+        System.out.println(endTime);
     }
     
 }
