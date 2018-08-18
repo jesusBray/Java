@@ -6,10 +6,13 @@ import javax.swing.JOptionPane;
 public class Menu {
     String option;
     Scanner entrada = new Scanner(System.in);
-    UserManager userManager = new  UserManager(new ConectionSql("root", "root"));
+    //esta instancia abre una ruta donde se almasena el usuario y contrasenia
+    DBConfig path = new DBConfig("/home/jesus/Desktop/texto.txt");
+    //usamos los metodos "getUser","getgetPasswor" para signar el usuarioy su contrasena 
+    
+    UserManager userManager = new  UserManager(new ConectionSql(path.getUser(),path.getPassword()));
+
     FilterUserData filtre = new FilterUserData();
-    UserVerification verifiedInformation;
-    IGListas iu;
     
     //este metodo es para imprimir por scanner;
     private String Input(String a){
