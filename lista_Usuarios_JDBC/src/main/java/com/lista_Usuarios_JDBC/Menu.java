@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class Menu {
     String option;
     Scanner entrada = new Scanner(System.in);
-    UserManager userManager = new  UserManager(new ConectionSql("root", "root"));
+    UserManager userManager = new  UserManager(new ConectionSql("path","root", "root"));
     FilterUserData filtre = new FilterUserData();
     UserVerification verifiedInformation;
 
