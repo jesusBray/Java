@@ -10,6 +10,8 @@ import java.util.Properties;
 public class DBConfig {
     
     Properties p;
+    String nig = "hola";
+    public String pl = "hola";
     
     public DBConfig(String filePath) {
         loadProperties(filePath);
@@ -41,5 +43,7 @@ public class DBConfig {
         return p.getProperty("BDServer");
     }
     
-    
+    public void metodo(){
+        
+    }
 }
