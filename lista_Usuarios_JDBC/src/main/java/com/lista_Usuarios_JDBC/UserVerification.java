@@ -27,7 +27,7 @@ public class UserVerification {
     
     public void AddUsuario(String id_usuario,String cargo,String nombre,String app, int sueldo){
         System.out.println("verifcando datos al crear usuario");
-        new ConectionSql("root","root");
+        new ConectionSql("path","root","root");
         if (filtrado.ValidationData(id_usuario)&&filtrado.ValidationData(cargo)&&filtrado.ValidationData(nombre)&&filtrado.ValidationData(app)) {
             user.AddUser(id_usuario, cargo, nombre, app, sueldo);
         }
