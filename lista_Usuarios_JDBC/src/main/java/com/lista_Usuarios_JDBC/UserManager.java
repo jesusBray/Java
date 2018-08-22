@@ -9,28 +9,30 @@ public class UserManager {
     private Statement declaración = null;
     private PreparedStatement miSentencia = null;
     private ResultSet resultado = null;
-    private String buscarApp = null;
     
     public UserManager(ConectionSql conn){
         this.conn = conn;
+        conn.Connect();
     }
     
     public PreparedStatement ConnectedQueryPrepared(String consulta){
-        conn.isConnected();
             try {
-                System.out.println("coneccion establecida");
                 return  miSentencia = conn.Connect().prepareStatement(consulta);
             } catch (Exception e) {
                 System.out.println("Error en la consulta!"+e.getMessage());
             }
-        return miSentencia; 
+        return miSentencia;
     }
     
-    public ResultSet PreparedStatementQuery(String buscarApp){
+    public String datoAsignable(String mensaje){
+        return mensaje;
+    }
+
+    public ResultSet PreparedStatementQuery(String datosMostrar,String datoBusqueda){
         try {
-            System.out.println("verifcando datos ");
             ConnectedQueryPrepared("select cargo, nombre, apellido, sueldo from dato_empleado where apellido=?");
-            miSentencia.setString(1, buscarApp);
+            ConnectedQueryPrepared("select "+datosMostrar+" where "+datoBusqueda+"=?");
+            miSentencia.setString(1, datoBusqueda);
             return resultado = miSentencia.executeQuery();
         } catch (Exception e) {
             System.out.println("Error en respuesta Busqueda! "+e.getMessage());
@@ -38,14 +40,14 @@ public class UserManager {
         return resultado;
     }
     
+    //este metodo ejecuta los parametros a buscar y ejecuta los resultados
     public void ShowSearchUser(String dato) {
         int i=0;
         try {
-            System.out.println("datos enlasados ");
-            PreparedStatementQuery(dato);
+            //PreparedStatementQuery(dato);
             while (resultado.next()) {
                 i++;
-                System.out.println("Cargo: "+resultado.getString(1)+" Nombre: "+resultado.getString(2)+" Apellido: "+resultado.getString(3)+" Salario: "+resultado.getInt(4));
+                System.out.println("Nombre: "+resultado.getString(1)+" Apellido: "+resultado.getString(2)+" Edad: "+resultado.getString(3)+" Telefono: "+resultado.getInt(4));
             }
             System.out.println("Total hallados: "+i);
         } catch (Exception e) {
@@ -53,7 +55,7 @@ public class UserManager {
         }
     }
     
-    //este metodo uetra todos los usuarios ojo al charque
+    //este metodo entra en todos los usuarios ojo al charque
     public void ShowUsers(){
         try {
             ConnectWithAllUsers();
