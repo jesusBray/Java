@@ -93,12 +93,20 @@ public class UserManager {
         return resultado;
     }
     
-    public void AddUser(String id_usuario,String cargo,String nombre,String app,int salario) {
+    public void AddUser(Usuario as/*,String cargo,String nombre,String app,int salario*/) {
+    //  (Usuario usuario)
+ //       try {
+//        miSentencia.setString(usuario.getnombre());
+//            miSentencia.setString(2, cargo);
+//            miSentencia.setString(3, nombre);
+//            miSentencia.setString(4, app);
+//            miSentencia.setInt(5, salario);
         try {
             ConnectedQueryPrepared("INSERT INTO dato_empleado"
                 + " VALUES"
                 + "(?,?,?,?,?)");
-            miSentencia.setString(1, id_usuario);
+//            miSentencia.setString(1, id_usuario);
+            miSentencia.setString(1, as.getLastName());
             miSentencia.setString(2, cargo);
             miSentencia.setString(3, nombre);
             miSentencia.setString(4, app);
