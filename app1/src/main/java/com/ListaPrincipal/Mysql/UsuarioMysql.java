@@ -27,6 +27,34 @@ public class UsuarioMysql implements UsuarioDAO{
 
     }
     
+    public ResultSet ejecutarQuery(String query) throws DAOExseption {
+        PreparedStatement stat = null;
+        ResultSet res= null;
+        try{
+            stat = coneccion.prepareStatement(query);
+            res = stat.executeQuery();
+        }catch(SQLException ex){
+            System.out.println(""+ex.getMessage());
+            throw new DAOExseption("errror en : ", ex);
+        }finally{
+            if (res!= null) {
+                try {
+                    res.close();
+                } catch (Exception e) {
+                    System.out.println("error en: "+e.getMessage());
+                }
+            }
+            if (stat!= null) {
+                try {
+                    stat.close();
+                } catch (Exception e) {
+                    System.out.println("error en: "+e.getMessage());
+                }
+            }
+        }
+        return res;
+    }
+    
     @Override
     public void Adicionar(Usuario adicionar) throws DAOExseption{
         stat = null;

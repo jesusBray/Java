@@ -10,14 +10,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class Moderador {
-    DBConfig config = null;
     UsuarioMysql user = null;
     Connection conn = null;
     
     public void DBConnect(){
         //String userDir = System.getProperty("user.dir");
         //String propPath = MessageFormat.format("{0}/MyDBConfig.properties", userDir);
-        config = new DBConfig("./Config/dbconfig.properties");
+        DBConfig config = new DBConfig("./config/dbconfig.properties");
         String server = config.getServer();
         String port = config.getPort();
         String db = config.getBaseDato();
@@ -35,12 +34,12 @@ public class Moderador {
     
     public void Path(String path) {
         try {
-            config = new DBConfig(path);
+            DBConfig config = new DBConfig(path);
             String server = config.getServer();
             String port = config.getPort();
             String db = config.getBaseDato();
-            String user = config.getUser().toString();
-            String pass = config.getPassword().toString();
+            String user = config.getUser();
+            String pass = config.getPassword();
             //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false",config.getUser(),config.getPassword());
             conn = DriverManager.getConnection("jdbc:mysql://"+server+":"+port+"/"+db+"?autoReconnect=true&useSSL=false",user,pass);
         } catch (SQLException ex) {
@@ -48,6 +47,32 @@ public class Moderador {
         }
     }
 
+    public void createDB(){
+        try {
+            //String userDir = System.getProperty("user.dir");
+            //String propPath = MessageFormat.format("{0}/MyDBConfig.properties", userDir);
+            DBConfig dbQueryConfig = new DBConfig("./config/dbqueries.properties");
+            DBConfig config = new DBConfig("./config/dbconfig.properties");
+            String server = config.getServer();
+            String port = config.getPort();
+            String db = config.getBaseDato();
+            String user = config.getUser();
+            String pass = config.getPassword();
+            String query = dbQueryConfig.getDBCreate();
+            System.out.println("oooooooooooo"+query);
+            String stringDriver = MessageFormat.format("jdbc:mysql://{0}:{1}/{2}?autoReconnect=true&useSSL=false", server, port, db);
+            System.out.println(stringDriver);
+            //conn = DriverManager.getConnection("jdbc:mysql://"+server+":"+port+"/"+db+"?autoReconnect=true&useSSL=false",user,pass);
+            conn = DriverManager.getConnection(stringDriver, user, pass);
+            UsuarioMysql usuarioMysql = new UsuarioMysql(conn);
+            usuarioMysql.ejecutarQuery(query);
+        } catch (DAOExseption ex) {
+            System.out.println("error en :"+ex.getLocalizedMessage());
+        } catch (SQLException ex) {
+            System.out.println("error en :"+ex.getLocalizedMessage());
+        }
+    }
+    
     public void ObtenerListaUsuarios() {
         user = new UsuarioMysql(conn);
         try {

@@ -41,4 +41,8 @@ public final class DBConfig {
     public String getBaseDato() {
         return prop.getProperty("BDadm");
     }
+    
+    public String getDBCreate() {
+        return prop.getProperty("createdb"); 
+    }
 }
