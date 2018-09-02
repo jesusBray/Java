@@ -13,8 +13,10 @@ import java.util.ArrayList;
 public class UsuarioMysql implements UsuarioDAO{
     
     ArrayList<Usuario> lista;
-    private Connection coneccion = null;
-    PreparedStatement stat; 
+    private Connection coneccion ;
+    PreparedStatement stat = null ; 
+    ResultSet resul = null;
+    Usuario user= null;
     
     final String INSERT = "INSERT INTO usuario(id_user, nombre, apellido, edad, telefono) VALUES(?, ?, ?, ?, ?)";
     final String UPDATE = "UPDATE usuario SET id_user= ? , nombre= ?, apellido= ?, edad= ?, telefono= ? WHERE id_user = ?";
@@ -28,18 +30,26 @@ public class UsuarioMysql implements UsuarioDAO{
     }
     
     public ResultSet ejecutarQuery(String query) throws DAOExseption {
-        PreparedStatement stat = null;
-        ResultSet res= null;
+        stat = null;
+        resul = null;
         try{
+            coneccion.setAutoCommit(false);
             stat = coneccion.prepareStatement(query);
-            res = stat.executeQuery();
+            if (stat.executeUpdate()==0) {
+                System.out.println("no se a establesido la solida consulta");
+            }
         }catch(SQLException ex){
+            try {
+                coneccion.rollback();
+            } catch (SQLException ex1) {
+                System.out.println("a fallado en el ");
+            }
             System.out.println(""+ex.getMessage());
             throw new DAOExseption("errror en : ", ex);
         }finally{
-            if (res!= null) {
+            if (resul!= null) {
                 try {
-                    res.close();
+                    resul.close();
                 } catch (Exception e) {
                     System.out.println("error en: "+e.getMessage());
                 }
@@ -52,7 +62,7 @@ public class UsuarioMysql implements UsuarioDAO{
                 }
             }
         }
-        return res;
+        return resul;
     }
     
     @Override
@@ -79,13 +89,8 @@ public class UsuarioMysql implements UsuarioDAO{
                 }
             }
         }
-        
     }
 
-    public Usuario Convertir(ResultSet res) throws SQLException{
-        return new Usuario(res.getInt("id_user"),res.getString("nombre"),res.getString("apellido"),res.getInt("edad"),res.getInt("telefono"));
-    }
-    
     @Override
     public void Eliminar(Usuario eliminar) throws DAOExseption {
         stat= null;
@@ -138,72 +143,152 @@ public class UsuarioMysql implements UsuarioDAO{
 
     @Override
     public ArrayList ObtenerTodo() throws DAOExseption {
-        ArrayList<Usuario> lista = new ArrayList<>();
-        PreparedStatement stat = null;
-        ResultSet res= null;
+        lista = null;
+        lista = new ArrayList<Usuario>();
+        stat = null;
+        resul = null;
         try{
             stat = coneccion.prepareStatement(GETALL);
-            res = stat.executeQuery();
-            while (res.next()) {                
-                lista.add(Convertir(res));
+            resul = stat.executeQuery();
+            while (resul.next()) {                
+                lista.add(Convertir(resul));
             }
-        }catch(SQLException ex){
-            throw new DAOExseption("errror en : ",ex);
-        }finally{
-            if (res!= null) {
-                try {
-                    res.close();
-                } catch (Exception e) {
-                    System.out.println("error en: "+e.getMessage());
-                }
-            }
-            if (stat!= null) {
-                try {
-                    stat.close();
-                } catch (Exception e) {
-                    System.out.println("error en: "+e.getMessage());
-                }
-            }
+            return lista;
+        }catch(SQLException ex) {
+            throw new DAOExseption("errror en obtener todo: ",ex);
+        } finally {
+            CerrarMetodos(stat, resul);
         }
-        return lista;
     }
 
     @Override
-    public Usuario Obtener(Integer id) throws DAOExseption{
+    public Usuario Obtener(Integer id) throws DAOExseption {
         stat = null;
-        ResultSet res = null;
-        Usuario user  = null;
+        resul = null;
+        user  = null;
         try{
             stat = coneccion.prepareStatement(GETONE);
             stat.setInt(1, id);
-            res = stat.executeQuery();
-            if (res.next()) {
-               user = Convertir(res);
+            resul = stat.executeQuery();
+            if (resul.next()) {
+               user = Convertir(resul);
             }else{
                 System.out.println("no se a encontrado ese registro ");
             }
-        }catch(SQLException ex){
-            throw new DAOExseption("errror en : ",ex);
-        }finally{
-            if (res!= null) {
-                try {
-                    res.close();
-                } catch (Exception e) {
-                    System.out.println("error en: "+e.getMessage());
-                }
-            }
-            if (stat!= null) {
-                try {
-                    stat.close();
-                } catch (Exception e) {
-                    System.out.println("error en: "+e.getMessage());
-                }
-            }
+        }catch(SQLException ex) {
+            throw new DAOExseption("errror en obtener : ",ex);
+        } finally {
+            CerrarMetodos(stat, resul);
         }
         return user;
     }
- 
-    public void Close(){
+    
+    public void CerrarMetodos(PreparedStatement prep, ResultSet result) {
+        if (resul!= null&& result!= null) {
+            try {
+                    prep.close();
+                    result.close();
+                } catch (Exception e) {
+                    System.out.println("error en: "+e.getMessage());
+                }
+        }
+    }
+    
+    public Usuario Convertir(ResultSet res) throws SQLException {
+        return new Usuario(res.getInt("id_user"),res.getString("nombre"),res.getString("apellido"),res.getInt("edad"),res.getInt("telefono"));
+    }
+    
+    public Usuario DatoBusqueda(String query, String busqueda)throws DAOExseption {
+        
+        user = null;
+        stat = null;
+        resul = null;
+        
+//        establecer coneccion con la base de datos
+        stat = getQuery(coneccion, query);
+        
+//        ejecutar el query con datos
+        getPrepared(stat, busqueda);
+        
+//        obtener los datos ejecutados
+        resul = getResultado(stat);
+        try {
+            if (resul.next()) {
+               return user = Convertir(resul);
+            }else{
+                System.out.println("no se a encontrado ese registro ");
+            }
+        } catch (SQLException e) {
+            throw new DAOExseption("errro en la ejecucion a la base de datos! ",e);
+        } finally {
+            CerrarMetodos(stat, resul);
+        }
+        return null;
+    }
+    
+    public Usuario DatoBusqueda(String query, int busqueda)throws DAOExseption {
+        
+        user = null;
+        stat = null;
+        resul = null;
+        
+//        establecer coneccion con la base de datos
+        stat = getQuery(coneccion, query);
+        
+//        ejecutar el query con datos
+        getPrepared(stat, busqueda);
+        
+//        obtener resultados de consulta
+        resul = getResultado(stat);
+        try {
+//          la condicional pregunta si hay algo para emviar de ser lo contrario no envia nada            
+            if (resul.next()) {
+               return user = Convertir(resul);
+            }else{
+                System.out.println("no se a encontrado ese registro ");
+            }
+        } catch (SQLException e) {
+            throw new DAOExseption("errro en la ejecucion a la base de datos! ",e);
+        } finally {
+            CerrarMetodos(stat, resul);
+        }
+        return null;
+    }
+    
+    public ResultSet getResultado(PreparedStatement prep)throws DAOExseption {        
+        try {
+            return prep.executeQuery();
+        } catch (Exception e) {
+            throw new DAOExseption("error en getResultado",e);
+        }
+    }
+    
+    public PreparedStatement getQuery(Connection con, String query) throws DAOExseption {
+        try {
+            return con.prepareStatement(query);
+        } catch (Exception e) {
+            throw new DAOExseption("error en getQuery! ",e);
+        }
+    }
+    
+    public void getPrepared(PreparedStatement prep, String datoBuscar) throws DAOExseption {
+        try {
+          prep.setString(1, datoBuscar);
+        } catch (Exception e) {
+            throw new DAOExseption("error en preparedStatement",e);
+        }
+        
+    }
+    
+    public void getPrepared(PreparedStatement prep, int query) throws DAOExseption {
+        try {
+            prep.setInt(1, query);
+        } catch (Exception e) {
+            throw new DAOExseption("error en preparedStatement",e);
+        }
+    }
+    
+    public void Close() {
         try {
             coneccion.close();
         } catch (SQLException ex) {

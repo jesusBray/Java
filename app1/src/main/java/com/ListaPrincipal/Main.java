@@ -7,10 +7,8 @@ public class Main {
         //"/home/jesus/Desktop/Props.properties"
         
         Moderador asignar = new Moderador();
-        //asignar.Path("/home/jesus/Desktop/Props.properties");
-        asignar.DBConnect();
-        //asignar.createDB();
-        asignar.ObtenerListaUsuarios();
+        System.out.println(asignar.EjecutarMiConsulta("id_user", 1));
         asignar.CerrarBD();
+        
     }
 }
