@@ -9,7 +9,7 @@ public class Main {
     
     public static void main( String[] args ) {
         
-        //"/home/jesus/Desktop/Props.properties"
+
         getUsuario using = new getUsuario();
         ArrayList<Usuario>lista;
         

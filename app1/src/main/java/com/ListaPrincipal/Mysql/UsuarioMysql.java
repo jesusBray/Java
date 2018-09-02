@@ -104,13 +104,7 @@ public class UsuarioMysql implements UsuarioDAO {
         } catch (SQLException ex) {
             throw new DAOExseption("error en la eliminacion de datos ",ex);
         } finally {
-            if (stat != null) {
-                try{
-                    stat.close();
-                }catch(SQLException ex) {
-                    throw new DAOExseption("error en sql");
-                }
-            }
+            CerrarMetodos(stat, resul);
         }
     }
 
@@ -183,7 +177,7 @@ public class UsuarioMysql implements UsuarioDAO {
     }
     
     public void CerrarMetodos(PreparedStatement prep, ResultSet result) {
-        if (resul!= null && result!= null) {
+        if (prep!= null && result!= null) {
             try {
                     prep.close();
                     result.close();
@@ -235,11 +229,12 @@ public class UsuarioMysql implements UsuarioDAO {
         stat = getQuery(coneccion, query);
         
 //        ejecutar el query con datos
-        getPrepared(stat, busqueda);
+        getPrepared(getQuery(coneccion, query), busqueda);
         
 //        obtener resultados de consulta
         resul = getResultado(stat);
         try {
+            
 //          la condicional pregunta si hay algo para emviar de ser lo contrario no envia nada            
             if (resul.next()) 
                return user = Convertir(resul);
