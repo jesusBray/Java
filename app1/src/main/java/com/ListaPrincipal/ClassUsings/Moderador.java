@@ -1,7 +1,9 @@
 
-package com.ListaPrincipal;
+package com.ListaPrincipal.ClassUsings;
 
+import com.ListaPrincipal.ClassUsings.Usuario;
 import com.ListaPrincipal.DAO.DAOExseption;
+import com.ListaPrincipal.DBConfig;
 import com.ListaPrincipal.Mysql.UsuarioMysql;
 import java.sql.Connection;
 import java.sql.DriverManager;

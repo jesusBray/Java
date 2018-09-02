@@ -1,5 +1,5 @@
 
-package com.ListaPrincipal;
+package com.ListaPrincipal.ClassUsings;
 
 public class Usuario {
     

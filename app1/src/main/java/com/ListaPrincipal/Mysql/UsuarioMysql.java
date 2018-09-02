@@ -3,7 +3,7 @@ package com.ListaPrincipal.Mysql;
 
 import com.ListaPrincipal.DAO.DAOExseption;
 import com.ListaPrincipal.DAO.UsuarioDAO;
-import com.ListaPrincipal.Usuario;
+import com.ListaPrincipal.ClassUsings.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -144,7 +144,7 @@ public class UsuarioMysql implements UsuarioDAO{
     @Override
     public ArrayList ObtenerTodo() throws DAOExseption {
         lista = null;
-        lista = new ArrayList<Usuario>();
+        lista = new ArrayList<>();
         stat = null;
         resul = null;
         try{
@@ -184,7 +184,7 @@ public class UsuarioMysql implements UsuarioDAO{
     }
     
     public void CerrarMetodos(PreparedStatement prep, ResultSet result) {
-        if (resul!= null&& result!= null) {
+        if (resul!= null && result!= null) {
             try {
                     prep.close();
                     result.close();
