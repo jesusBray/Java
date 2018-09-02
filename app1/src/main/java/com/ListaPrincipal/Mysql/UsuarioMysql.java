@@ -10,13 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class UsuarioMysql implements UsuarioDAO{
+public class UsuarioMysql implements UsuarioDAO {
     
-    ArrayList<Usuario> lista;
-    private Connection coneccion ;
-    PreparedStatement stat = null ; 
-    ResultSet resul = null;
-    Usuario user= null;
+    private ArrayList<Usuario> lista = null;
+    private Connection coneccion = null;
+    private PreparedStatement stat = null ; 
+    private ResultSet resul = null;
+    private Usuario user= null;
     
     final String INSERT = "INSERT INTO usuario(id_user, nombre, apellido, edad, telefono) VALUES(?, ?, ?, ?, ?)";
     final String UPDATE = "UPDATE usuario SET id_user= ? , nombre= ?, apellido= ?, edad= ?, telefono= ? WHERE id_user = ?";
@@ -29,6 +29,7 @@ public class UsuarioMysql implements UsuarioDAO{
 
     }
     
+    //metodo en pruevas (warning!!)
     public ResultSet ejecutarQuery(String query) throws DAOExseption {
         stat = null;
         resul = null;
@@ -38,7 +39,7 @@ public class UsuarioMysql implements UsuarioDAO{
             if (stat.executeUpdate()==0) {
                 System.out.println("no se a establesido la solida consulta");
             }
-        }catch(SQLException ex){
+        }catch(SQLException ex) {
             try {
                 coneccion.rollback();
             } catch (SQLException ex1) {
@@ -66,7 +67,7 @@ public class UsuarioMysql implements UsuarioDAO{
     }
     
     @Override
-    public void Adicionar(Usuario adicionar) throws DAOExseption{
+    public void Adicionar(Usuario adicionar) throws DAOExseption {
         stat = null;
         try {
             stat = coneccion.prepareStatement(INSERT);
@@ -80,7 +81,7 @@ public class UsuarioMysql implements UsuarioDAO{
             }
         } catch (SQLException ex) {
             throw new DAOExseption("errro en la insercion de datos! ",ex);
-        }finally{
+        } finally {
             if (stat != null) {
                 try{
                     stat.close();
@@ -102,16 +103,15 @@ public class UsuarioMysql implements UsuarioDAO{
             }
         } catch (SQLException ex) {
             throw new DAOExseption("error en la eliminacion de datos ",ex);
-        }finally{
+        } finally {
             if (stat != null) {
                 try{
                     stat.close();
-                }catch(SQLException ex){
+                }catch(SQLException ex) {
                     throw new DAOExseption("error en sql");
                 }
             }
         }
-        
     }
 
     @Override
@@ -130,11 +130,11 @@ public class UsuarioMysql implements UsuarioDAO{
             }
         } catch (SQLException ex) {
             throw new DAOExseption("error en la modificasion ",ex);
-        }finally{
+        } finally {
             if (stat != null) {
                 try{
                     stat.close();
-                }catch(SQLException ex){
+                }catch(SQLException ex) {
                     throw new DAOExseption("error en sql");
                 }
             }
@@ -170,11 +170,10 @@ public class UsuarioMysql implements UsuarioDAO{
             stat = coneccion.prepareStatement(GETONE);
             stat.setInt(1, id);
             resul = stat.executeQuery();
-            if (resul.next()) {
+            if (resul.next()) 
                user = Convertir(resul);
-            }else{
+            else 
                 System.out.println("no se a encontrado ese registro ");
-            }
         }catch(SQLException ex) {
             throw new DAOExseption("errror en obtener : ",ex);
         } finally {
@@ -242,11 +241,10 @@ public class UsuarioMysql implements UsuarioDAO{
         resul = getResultado(stat);
         try {
 //          la condicional pregunta si hay algo para emviar de ser lo contrario no envia nada            
-            if (resul.next()) {
+            if (resul.next()) 
                return user = Convertir(resul);
-            }else{
+            else
                 System.out.println("no se a encontrado ese registro ");
-            }
         } catch (SQLException e) {
             throw new DAOExseption("errro en la ejecucion a la base de datos! ",e);
         } finally {

@@ -1,8 +1,8 @@
-
-package com.ListaPrincipal.ClassUsings;
+package com.ListaPrincipal.getClass;
 
 import com.ListaPrincipal.ClassUsings.Usuario;
 import com.ListaPrincipal.DAO.DAOExseption;
+import com.ListaPrincipal.DAO.GetUsuarioDAO;
 import com.ListaPrincipal.DBConfig;
 import com.ListaPrincipal.Mysql.UsuarioMysql;
 import java.sql.Connection;
@@ -10,17 +10,67 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class Moderador {
-    UsuarioMysql user = null;
-    Connection conn = null;
+public class getUsuario implements GetUsuarioDAO{
     
-    public Moderador(){
-        DBConnect();
+    private UsuarioMysql user = null;
+    private Connection conn = null;
+    
+    
+    @Override
+    public void GetAdd(Usuario a)  {
+       user = new UsuarioMysql(conn);
+        try {
+            user.Adicionar(a);
+            System.out.println("adicionado corectamente");
+        } catch (Exception e) {
+            System.out.println("error al adicionar usuario");
+        }
+    }
+
+    @Override
+    public void GetDelete(Usuario a) {
+        user = new UsuarioMysql(conn);
+        try {
+            user.Eliminar(a);
+            System.out.println("se a liminado corectamente");
+        } catch (Exception e) {
+            System.out.println("error al eliminar un usuario");
+        }
+    }
+
+    @Override
+    public void GetEdit(Usuario a) {
+        user = new UsuarioMysql(conn);
+        try {
+            user.Modificar(a);
+            System.out.println("dato modificado");
+        } catch (Exception e) {
+            System.out.println("error al editar un usuario");
+        }
+    }
+
+    @Override
+    public ArrayList GetAll(){
+        user = new UsuarioMysql(conn);
+        try {
+            return user.ObtenerTodo();
+        } catch (DAOExseption ex) {
+            System.out.println("error en la consulta a la base de datos "+ex.getMessage());
+        }
+        return null;
     }
     
+    @Override
+    public Usuario GetOne(Integer id) {
+        user = new UsuarioMysql(conn);
+        try {
+            return user.Obtener(id);
+        } catch (Exception e) {
+            System.out.println("erroe en la coneccion buscar usuario"+e.getMessage());
+        }
+        return null;
+    }
     
     public void DBConnect(){
         DBConfig config = new DBConfig("./config/dbconfig.properties");
@@ -37,7 +87,7 @@ public class Moderador {
             System.out.println("error en :"+ex.getLocalizedMessage());
         }
     }
-    
+     
     public void Path(String path) {
         try {
             DBConfig config = new DBConfig(path);
@@ -51,7 +101,7 @@ public class Moderador {
             System.out.println("error en :"+ex.getLocalizedMessage());
         }
     }
-
+    
     public void createDB(){
         try {
             DBConfig dbQueryConfig = new DBConfig("./config/dbqueries.properties");
@@ -71,57 +121,6 @@ public class Moderador {
             System.out.println("error en :"+ex.getLocalizedMessage());
         } catch (SQLException ex) {
             System.out.println("error en :"+ex.getLocalizedMessage());
-        }
-    }
-    
-    public void ObtenerListaUsuarios() {
-        user = new UsuarioMysql(conn);
-        try {
-            ArrayList<Usuario> lista = user.ObtenerTodo();
-            lista.forEach((object) -> {
-                System.out.println(object.toString());
-            });
-        } catch (DAOExseption ex) {
-            System.out.println("error en la consulta a la base de datos "+ex.getMessage());
-        }
-    }
-    
-    public void BuscarUsuario(Integer dato){
-        user = new UsuarioMysql(conn);
-        try {
-            System.out.println(user.Obtener(dato));
-        } catch (Exception e) {
-            System.out.println("erroe en la coneccion buscar usuario"+e.getMessage());
-        }
-    }
-    
-    public void AdicionarUsuario(Usuario u){
-        user = new UsuarioMysql(conn);
-        try {
-            user.Adicionar(u);
-            System.out.println("adicionado corectamente");
-        } catch (Exception e) {
-            System.out.println("error al adicionar usuario");
-        }
-    }
-    
-    public void EditarUsuario(Usuario u){
-        user = new UsuarioMysql(conn);
-        try {
-            user.Modificar(u);
-            System.out.println("dato modificado");
-        } catch (Exception e) {
-            System.out.println("error al editar un usuario");
-        }
-    }
-    
-    public void EliminarUsuario(Usuario us){
-        user = new UsuarioMysql(conn);
-        try {
-            user.Eliminar(us);
-            System.out.println("se a liminado corectamente");
-        } catch (Exception e) {
-            System.out.println("error al eliminar un usuario");
         }
     }
     
@@ -145,8 +144,12 @@ public class Moderador {
         return null;
     }
     
-    public void CerrarBD(){
-        user.Close();
+    public void CerrarBD() {
+        try {
+            user.Close();
+            conn.close();   
+        } catch (Exception e) {
+            System.out.println("error en CerrarBD! ");
+        }
     }
-    
 }

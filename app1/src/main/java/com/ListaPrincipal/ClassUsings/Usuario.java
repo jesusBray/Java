@@ -3,9 +3,9 @@ package com.ListaPrincipal.ClassUsings;
 
 public class Usuario {
     
-    int id_user,edad,telefono;
-    String nombre,apelldio;
-    int id_busqueda;
+    private int id_user,edad,telefono;
+    private String nombre,apelldio;
+    private int id_busqueda;
 
     public Usuario(int id_user, String nombre, String apelldio, int edad, int telefono, int id_busqueda) {
         this.id_user = id_user;
