@@ -13,5 +13,5 @@ public interface GetScafoldingDAO <T,K>{
     
     ArrayList GetAll();
     
-    T GetOne (K id);
+    ArrayList GetOne (K id);
 }

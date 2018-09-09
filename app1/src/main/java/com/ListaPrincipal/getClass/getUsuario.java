@@ -7,16 +7,40 @@ import com.ListaPrincipal.DBConfig;
 import com.ListaPrincipal.Mysql.UsuarioMysql;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class getUsuario implements GetUsuarioDAO{
     
-    private UsuarioMysql user = null;
-    private Connection conn = null;
+    private Connection conn = null; 
+    private UsuarioMysql user= null;
     
+    public getUsuario() {
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public final void setConn(Connection conn) {
+        this.conn = conn;
+    }
     
+    public UsuarioMysql getUser() {
+        return user;
+    }
+
+    public void setUser(UsuarioMysql user) {
+        this.user = user;
+    }
+  
     @Override
     public void GetAdd(Usuario a)  {
        user = new UsuarioMysql(conn);
@@ -30,6 +54,16 @@ public class getUsuario implements GetUsuarioDAO{
 
     @Override
     public void GetDelete(Usuario a) {
+        user = new UsuarioMysql(conn);
+        try {
+            user.Eliminar(a);
+            System.out.println("se a liminado corectamente");
+        } catch (Exception e) {
+            System.out.println("error al eliminar un usuario");
+        }
+    }
+    
+    public void GetDelete(int a) {
         user = new UsuarioMysql(conn);
         try {
             user.Eliminar(a);
@@ -62,7 +96,7 @@ public class getUsuario implements GetUsuarioDAO{
     }
     
     @Override
-    public Usuario GetOne(Integer id) {
+    public ArrayList<Usuario> GetOne(Integer id) {
         user = new UsuarioMysql(conn);
         try {
             return user.Obtener(id);
@@ -72,7 +106,7 @@ public class getUsuario implements GetUsuarioDAO{
         return null;
     }
     
-    public void DBConnect(){
+    public void DBConnect() {
         DBConfig config = new DBConfig("./config/dbconfig.properties");
         String server = config.getServer();
         String port = config.getPort();
@@ -87,69 +121,53 @@ public class getUsuario implements GetUsuarioDAO{
             System.out.println("error en :"+ex.getLocalizedMessage());
         }
     }
-     
-    public void Path(String path) {
-        try {
-            DBConfig config = new DBConfig(path);
-            String server = config.getServer();
-            String port = config.getPort();
-            String db = config.getBaseDato();
-            String user = config.getUser();
-            String pass = config.getPassword();
-            conn = DriverManager.getConnection("jdbc:mysql://"+server+":"+port+"/"+db+"?autoReconnect=true&useSSL=false",user,pass);
-        } catch (SQLException ex) {
-            System.out.println("error en :"+ex.getLocalizedMessage());
-        }
-    }
     
+    //metodo inestable warning!!
     public void createDB(){
+        UsuarioMysql usuarioMysql = new UsuarioMysql(conn);
         try {
-            DBConfig dbQueryConfig = new DBConfig("./config/dbqueries.properties");
-            DBConfig config = new DBConfig("./config/dbconfig.properties");
-            String server = config.getServer();
-            String port = config.getPort();
-            String db = config.getBaseDato();
-            String user = config.getUser();
-            String pass = config.getPassword();
-            String query = dbQueryConfig.getDBCreate();
-            String stringDriver = MessageFormat.format("jdbc:mysql://{0}:{1}/{2}?autoReconnect=true&useSSL=false", server, port, db);
-            System.out.println(stringDriver);
-            conn = DriverManager.getConnection(stringDriver, user, pass);
-            UsuarioMysql usuarioMysql = new UsuarioMysql(conn);
-            usuarioMysql.ejecutarQuery(query);
+            usuarioMysql.ejecutarQuery("");
         } catch (DAOExseption ex) {
-            System.out.println("error en :"+ex.getLocalizedMessage());
-        } catch (SQLException ex) {
-            System.out.println("error en :"+ex.getLocalizedMessage());
+            System.out.println(Arrays.toString(ex.getStackTrace()));
+            System.out.println("error en createDB");
         }
     }
     
-    public Usuario EjecutarMiConsulta(String campo,String datoABuscar) {
+    public ArrayList<Usuario> EjecutarMiConsultaBusqueda(String campo, String datoABuscar) {
+        user = new UsuarioMysql(conn);
+        try {
+            user.setTabla(campo);
+            user.setDatoDeBusqueda(datoABuscar);
+            return user.DatoBusquedaCadena();
+        } catch (Exception ex) {
+            System.out.println("error en la ejecucion de datos! "+ex.getMessage());
+        }
+        return null;
+    }
+
+    public ArrayList<Usuario> EjecutarMiConsultaBusqueda(String campo,int datoABuscar) {
         try {
             user = new UsuarioMysql(conn);
-            return user.DatoBusqueda("select * from usuario where "+campo+" =?", datoABuscar);
+            user.setTabla(campo);
+            user.setDatoDeBusquedaInt(datoABuscar);
+            return user.DatoBusquedaInt();
         } catch (DAOExseption ex) {
             System.out.println("error en la ejecucion de datos! "+ex.getMessage());
         }
         return null;
     }
     
-    public Usuario EjecutarMiConsulta(String campo,int datoABuscar) {
+    public String[] getNameColumns(String tabla){
+        user = new UsuarioMysql(conn);
         try {
-            user = new UsuarioMysql(conn);
-            return user.DatoBusqueda("select * from usuario where "+campo+" =?", datoABuscar);
+            user.setStat(user.getQueries(conn, tabla));
+            user.setResul(user.getResultado(user.getStat()));
+            user.setResultMeta(user.getResultSetMetadata(user.getResul(), user.getResultMeta()));
+            return user.listarEtiquetas(user.getResultMeta());
         } catch (DAOExseption ex) {
-            System.out.println("error en la ejecucion de datos! "+ex.getMessage());
+            System.out.println("error en getNameColumns: "+ex.getMessage());
         }
         return null;
     }
-    
-    public void CerrarBD() {
-        try {
-            user.Close();
-            conn.close();   
-        } catch (Exception e) {
-            System.out.println("error en CerrarBD! ");
-        }
-    }
+
 }

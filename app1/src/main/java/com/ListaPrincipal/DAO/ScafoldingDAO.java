@@ -11,8 +11,8 @@ public interface ScafoldingDAO <T,K> {
     
     void Modificar(T a)throws DAOExseption;
     
-    ArrayList ObtenerTodo()throws DAOExseption;
+    ArrayList<T> ObtenerTodo()throws DAOExseption;
     
-    T Obtener(K id)throws DAOExseption;
+    ArrayList<T> Obtener(K id)throws DAOExseption;
     
 }

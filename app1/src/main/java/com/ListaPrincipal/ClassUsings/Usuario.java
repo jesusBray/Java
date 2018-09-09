@@ -6,15 +6,6 @@ public class Usuario {
     private int id_user,edad,telefono;
     private String nombre,apelldio;
     private int id_busqueda;
-
-    public Usuario(int id_user, String nombre, String apelldio, int edad, int telefono, int id_busqueda) {
-        this.id_user = id_user;
-        this.edad = edad;
-        this.telefono = telefono;
-        this.nombre = nombre;
-        this.apelldio = apelldio;
-        this.id_busqueda = id_busqueda;
-    }
     
     public Usuario(int id_user,String nombre, String apelldio,int edad, int telefono) {
         this.id_user = id_user;
