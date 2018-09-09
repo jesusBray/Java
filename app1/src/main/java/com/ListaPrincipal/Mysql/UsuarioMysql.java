@@ -421,16 +421,7 @@ public class UsuarioMysql implements UsuarioDAO {
             System.out.println(" error en las etiquetas: "+e.getLocalizedMessage());
         } return etiquetas;
     }
-    
-    public void closeConnexion() {
-        try {
-            getConeccion().close();
-        } catch (SQLException ex) {
-            System.out.println("error en el ciere a la base de datos! "+ex.getMessage());
-            ex.getStackTrace();
-        }
-    }
-       
+
     public void CerrarMetodos(PreparedStatement prep, ResultSet result,Connection con) {
         if (prep != null && result != null && con != null) {
             try {
@@ -442,4 +433,6 @@ public class UsuarioMysql implements UsuarioDAO {
             }
         }
     }
+    
+    
 }
