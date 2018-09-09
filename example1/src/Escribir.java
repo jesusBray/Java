@@ -9,11 +9,11 @@ public class Escribir {
     public static void main(String []args) {
 
         //Un texto cualquiera guardado en una variable
-        String saludo="Hola como estamos en este da tan lluvioso";
+        String saludo="rikyla grasosa asco  negra y grasosa";
         try
         {
             //Crear un objeto File se encarga de crear o abrir acceso a un archivo que se especifica en su constructor
-            File archivo=new File("texto1.txt");
+            File archivo=new File("/home/jesus/Desktop/texto.txt");
 
             //Crear objeto FileWriter que sera el que nos ayude a escribir sobre archivo
             FileWriter escribir=new FileWriter(archivo,true);

@@ -32,7 +32,7 @@ public class ConectionSql {
     public Connection Connect() {
         try {
             System.out.println("coneccion establesida ");
-            return myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/USUARIO",this.user,this.password);
+            return myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/users",this.user,this.password);
         }catch (Exception e) {
             System.out.println("Error no coneccion no establecida");
         }

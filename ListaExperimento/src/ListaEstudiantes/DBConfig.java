@@ -9,9 +9,7 @@ import java.util.Properties;
 
 public class DBConfig {
     
-    Properties p;
-    String nig = "hola";
-    public String pl = "hola";
+    private Properties p;
     
     public DBConfig(String filePath) {
         loadProperties(filePath);
@@ -42,8 +40,8 @@ public class DBConfig {
     public String getServer(){
         return p.getProperty("BDServer");
     }
-    
-    public void metodo(){
-        
+    public static void main(String[] args) {
+        DBConfig path = new DBConfig("/home/jesus/Desktop/Props.properties");
+        System.out.println(path.getUser());
     }
 }
