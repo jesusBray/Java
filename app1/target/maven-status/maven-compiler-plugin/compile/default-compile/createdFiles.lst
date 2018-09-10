@@ -1,12 +1,13 @@
-com/ListaPrincipal/ClassUsings/Usuario.class
 com/ListaPrincipal/getClass/getUsuario.class
 com/ListaPrincipal/Main.class
-com/ListaPrincipal/Mysql/UsuarioMysql.class
 com/ListaPrincipal/DAO/GetUsuarioDAO.class
 com/ListaPrincipal/DAO/ScafoldingDAO.class
 com/ListaPrincipal/ClassUsings/Productos.class
 com/ListaPrincipal/DAO/DAOExseption.class
-com/ListaPrincipal/getClass/ObjetoBusqueda.class
 com/ListaPrincipal/DAO/GetScafoldingDAO.class
 com/ListaPrincipal/DAO/UsuarioDAO.class
+com/ListaPrincipal/ClassUsings/Usuario.class
+com/ListaPrincipal/Busqueda/ObjetoBusqueda.class
+com/ListaPrincipal/Mysql/UsuarioMysql.class
+com/ListaPrincipal/Busqueda/AsignarConsulta.class
 com/ListaPrincipal/DBConfig.class
