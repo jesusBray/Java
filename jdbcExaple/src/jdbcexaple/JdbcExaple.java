@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,8 +25,12 @@ public class JdbcExaple {
         } catch (Exception e) {
             return false;
         }
-        
     }
+    
+    
+   
+    
+    
     
     public void base2(String tabla) {
         Connection coneccion= null;
@@ -58,7 +64,7 @@ public class JdbcExaple {
     
     public static void main(String[] args) {
         JdbcExaple jd = new JdbcExaple();
-        jd.base2("usuaria");
+        jd.base1();
     }
     
 }
