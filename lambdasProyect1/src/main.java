@@ -46,15 +46,14 @@ public class main {
     
     public void referenciarConstructor(){
         
-        
 //----------------------metodo anonimo-----------------------        
-//        operacion3F op3 = new operacion3F() {
-//            @Override
-//            public Persona crear(int id, String nombre) {
-//                return new Persona(id, nombre);
-//            }
-//        };
-//        op3.crear(22, "jesus");
+        operacion3F op3 = new operacion3F() {
+            @Override
+            public Persona crear(int id, String nombre) {
+                return new Persona(id, nombre);
+            }
+        };
+        op3.crear(22, "jesus");
         
 //---------------------lambdas------------------------------
         operacion3F opi3 = (a,b)-> ( new Persona(a, b));
