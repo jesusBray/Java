@@ -11,14 +11,13 @@ public class main {
         return op1.calcular(num1, num2);
     }
     
-    public static void metodoEstatico(){
+    public static void metodoEstatico() {
         System.out.println("metodo estatico ejecutandose");
     }
     
     public void metodoArbitrario() {
         String[] nombres = {"jesus", "anacleto", "zamudio","robertha"};
-        
-        
+                
 //-------------------------metodo anonimo----------------------//
         Arrays.sort(nombres, new Comparator<String>() {
             @Override
@@ -64,6 +63,7 @@ public class main {
         operacion3F opif3 = Persona::new;
         Persona per = opif3.crear(1, "jesus");
         System.out.println("ID: "+p.getId()+"Nombre: "+p.getNombre());
+        
     }
     
     public void operarMetodos(){
