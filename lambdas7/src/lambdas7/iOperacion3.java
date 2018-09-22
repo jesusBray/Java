@@ -4,5 +4,5 @@ package lambdas7;
 @FunctionalInterface
 public interface iOperacion3 {
     
-    void metodoFunctionalInterface();
+    Persona crearPersona(int id, String nombre, String gerarquia);
 }
