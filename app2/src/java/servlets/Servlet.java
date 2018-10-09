@@ -49,6 +49,9 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String user = request.getParameter("user"),pass = request.getParameter("pass");
+        
+        
     }
 
     /**
@@ -63,6 +66,9 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        
+        
     }
 
     /**
