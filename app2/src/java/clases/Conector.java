@@ -2,6 +2,7 @@
 package clases;
     import java.sql.Connection;
     import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Conector {
     String path = "jdbc:mysql://localhost:3306/users?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
@@ -22,7 +23,7 @@ public class Conector {
             System.out.println("Conectado a la base de datos!");
             return con;
             
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println("error en la coneccion a la base de datos! "+e.getMessage());
             return con;
         }

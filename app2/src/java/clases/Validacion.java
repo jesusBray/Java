@@ -11,6 +11,10 @@ public class Validacion{
     public Validacion(Conector con) {
         this.con=con;
     }
+
+    public Validacion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public boolean login(String user,String pass) throws SQLException{
         PreparedStatement prep = con.getConnection().prepareStatement("select user, pass from login where user=?, pass=?");
