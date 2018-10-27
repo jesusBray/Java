@@ -38,7 +38,9 @@ public class Servlet1 extends HttpServlet {
         out.println("Servlet1 funcionando!");
         try {
             Connection con = miPool.getConnection();
-            
+            PreparedStatement prepared = con.prepareStatement("select * from ?");
+            prepared.setString(1, "login");
+            //ResultSet result = prepared.executeQuery();
             System.out.println("Todo bien!");
         } catch (SQLException e) {
             System.out.println("error en doGet: "+e.getMessage());

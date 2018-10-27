@@ -4,9 +4,17 @@
         <servlet-name>Servlet1</servlet-name>
         <servlet-class>app5.com.servlets.Servlet1</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControladorProductos</servlet-name>
+        <servlet-class>app5.com.servlets.ControladorProductos</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
         <url-pattern>/Usuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorProductos</servlet-name>
+        <url-pattern>/productos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
