@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/App">
+    <Resource name="jdbc/data1" auth="Container" type="javax.sql.DataSource"
+                maxTotal="15" maxIdle="5" maxWaitMillis="1000"
+                username="root" password="root"
+                driverClassName="com.mysql.jdbc.Driver"
+                url="jdbc:mysql://localhost:3306/appWebDB?autoReconnect=true&amp;useSSL=false">
+    </Resource>
+</Context>
