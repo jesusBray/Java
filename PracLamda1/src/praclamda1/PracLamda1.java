@@ -6,8 +6,7 @@ public class PracLamda1 {
     
     public String auxOrElse(String valor) {
        Optional<String> op = Optional.ofNullable(valor);
-       String aux = op.orElse("dato externo! ");
-       return aux;
+       return op.orElse("dato externo! ");
     }
     
     public void orElseThrow(String valor) {
