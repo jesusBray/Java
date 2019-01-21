@@ -16,8 +16,5 @@ public class example1 {
         for (String string : lista) {
             System.out.println(string);
         }
-        
     }
-    
-    
 }
