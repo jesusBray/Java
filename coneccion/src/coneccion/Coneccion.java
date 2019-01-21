@@ -13,7 +13,7 @@ public class Coneccion {
      */
     public static void main(String[] args) {
         try {
-            Connection con  = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "root");
+            Connection con  = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "root");
             System.out.println("conectado  ala base de datos!");
         } catch (Exception e) {
             System.out.println("no estas conectado a la base de datos!"+e.getMessage());
