@@ -11,12 +11,7 @@ public class main implements NewInterfaceFunctional2<Integer>{
     }
     
     public void operacionAritmeticaClaseAnonima(int a ,int b){
-        NewInterfaceFunctional2<Integer> opecarion = new NewInterfaceFunctional2<Integer>() {
-            @Override
-            public int suma(Integer t, Integer k) {
-                return t+k;
-            }
-        };
+        NewInterfaceFunctional2<Integer> opecarion = (Integer t, Integer k) -> t+k;
         System.out.println("Resultado: "+opecarion.suma(a, b));
     }
     
@@ -24,7 +19,7 @@ public class main implements NewInterfaceFunctional2<Integer>{
     
     @Override
     public int suma(Integer t, Integer k) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return t+k;
     }
     
     public static void main(String[] args) {
