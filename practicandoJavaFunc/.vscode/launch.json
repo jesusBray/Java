@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Example1",
+            "request": "launch",
+            "mainClass": "Example1",
+            "projectName": "practicandoJavaFunc_8509857f"
+        }
+    ]
+}
