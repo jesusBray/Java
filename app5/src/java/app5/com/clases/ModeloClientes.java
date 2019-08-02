@@ -14,7 +14,7 @@ public class ModeloClientes {
         this.conPool = conPool;
     }
     
-    public ArrayList<Cliente> listaCliente() throws Exception{
+    public ArrayList<Cliente> listaCliente() throws Exception {
         String queri = "select * from datosCliente";
         ArrayList<Cliente> lista = new ArrayList<>();
         Connection con = conPool.getConnection();
