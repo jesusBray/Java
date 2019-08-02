@@ -25,4 +25,6 @@ public class ConfigProperties {
         return prop.getProperty(nameDB);
     }
     
+    
+    
 }
