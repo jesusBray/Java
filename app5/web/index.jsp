@@ -18,7 +18,7 @@
         
                 <h1>Hello World!</h1>
         <%
-            List<producto> list = (List<producto>)request.getAttribute("LISTAPRODUCTOS");
+            List<String> list = (List<String>)request.getAttribute("LISTAPRODUCTOS");
         %>
         <table>
                         <% for (producto c : list) {%>
